@@ -5,16 +5,14 @@
     .module('gcloudConsole')
     .config(routeConfig);
 
-  function routeConfig($routeProvider) {
-    $routeProvider
-      .when('/', {
-        templateUrl: 'app/main/main.html',
-        controller: 'MainController',
-        controllerAs: 'main'
-      })
-      .otherwise({
-        redirectTo: '/'
-      });
+  /** @ngInject */
+  function routeConfig($urlRouterProvider) {
+    $urlRouterProvider.deferIntercept();
+
+    $urlRouterProvider.otherwise(function($injector) {
+      var GData = $injector.get('GData');
+      return GData.isLogin() ? '/projects' : '/login';
+    });
   }
 
 })();

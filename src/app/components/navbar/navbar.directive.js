@@ -3,30 +3,57 @@
 
   angular
     .module('gcloudConsole')
-    .directive('acmeNavbar', acmeNavbar);
+    .directive('navbar', navbar);
 
   /** @ngInject */
-  function acmeNavbar() {
-    var directive = {
+  function navbar() {
+    return {
       restrict: 'E',
-      templateUrl: 'app/components/navbar/navbar.html',
+      replace: true,
       scope: {
-          creationDate: '='
+        projects: '=',
+        user: '='
       },
-      controller: NavbarController,
-      controllerAs: 'vm',
+      templateUrl: 'app/components/navbar/navbar.html',
+      controller: NavbarCtrl,
+      controllerAs: 'navbar',
       bindToController: true
     };
-
-    return directive;
-
-    /** @ngInject */
-    function NavbarController(moment) {
-      var vm = this;
-
-      // "vm.creation" is avaible by directive option "bindToController: true"
-      vm.relativeDate = moment(vm.creationDate).fromNow();
-    }
   }
 
-})();
+  /** @ngInject */
+  function NavbarCtrl($state, $scope, GAuth) {
+    var DEFAULT_OPTION = 'Select a project';
+
+    var navbar = this;
+    var projects = navbar.projects;
+
+    navbar.selectedProject = DEFAULT_OPTION;
+    navbar.logout = logout;
+
+
+    $scope.$watch(getProjectId, setSelectedProject);
+
+    function getProjectId() {
+      return $state.params.projectId;
+    }
+
+    function setSelectedProject(projectId) {
+      navbar.selectedProject = getProjectName(projectId) || DEFAULT_OPTION;
+    }
+
+    function getProjectName(id) {
+      for (var i = 0; i < projects.length; i++) {
+        if (projects[i].projectId === id) {
+          return projects[i].name;
+        }
+      }
+    }
+
+    function logout() {
+      return GAuth.logout().then(function() {
+        $state.go('login');
+      });
+    }
+  }
+}());

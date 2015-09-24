@@ -1,3 +1,26 @@
-.acme-navbar-text{
-  color: white;
+.navbar {
+  padding: 0 24px;
+
+  &-user-icon {
+    width: 100%;
+    height: auto;
+  }
+
+  &-logo {
+    height: 40px;
+    margin-right: 8px;
+  }
+
+  &-project-selector {
+    font-size: 14px;
+    margin: 0;
+
+    span {
+      text-transform: none;
+    }
+  }
+
+  &-project-link {
+    line-height: 48px;
+  }
 }

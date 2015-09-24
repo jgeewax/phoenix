@@ -2,6 +2,13 @@
   'use strict';
 
   angular
-    .module('gcloudConsole', ['ngAnimate', 'ngCookies', 'ngTouch', 'ngSanitize', 'ngRoute', 'ngMaterial']);
+    .module('gcloudConsole', [
+      'ngAnimate',
+      'ngSanitize',
+      'ui.router',
+      'ngMaterial',
+      'angular-google-gapi',
+      'oc.lazyLoad'
+    ]);
 
 })();

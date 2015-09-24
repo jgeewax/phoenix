@@ -6,15 +6,25 @@
     .config(config);
 
   /** @ngInject */
-  function config($logProvider, toastr) {
-    // Enable log
-    $logProvider.debugEnabled(true);
+  function config($mdThemingProvider, System) {
+    var consolePalette = $mdThemingProvider.extendPalette('grey', {
+      '0': '#9e9e9e',
+      '500': '#fafafa'
+    });
 
-    // Set options third-party lib
-    toastr.options.timeOut = 3000;
-    toastr.options.positionClass = 'toast-top-right';
-    toastr.options.preventDuplicates = true;
-    toastr.options.progressBar = true;
+    $mdThemingProvider.definePalette('consolePalette', consolePalette);
+
+    $mdThemingProvider.theme('default')
+      .primaryPalette('consolePalette')
+      .accentPalette('blue');
+
+    System.config({
+      paths: {
+        "*": "*.js",
+        "github:*": "https://github.jspm.io/*.js",
+        "npm:*": "https://npm.jspm.io/*.js"
+      }
+    });
   }
 
 })();
