@@ -4,12 +4,22 @@
   &-list {
     margin: 0;
     padding: 0;
+    line-height: 40px;
+    color: rgba(0,0,0,0.54);
+  }
+
+  &-list-header {
+    padding: 0 16px;
+    margin-top: 8px;
+
+    & md-icon {
+      font-size: 20px;
+    }
   }
 
   &-link {
     display: block;
     padding: 0 16px 0 32px;
-    line-height: 40px;
     text-decoration: none;
     color: rgba(0,0,0,0.87);
     transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);

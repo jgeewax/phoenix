@@ -6,7 +6,7 @@
     .controller('PluginCtrl', PluginCtrl);
 
   /** @ngInject */
-  function PluginCtrl(plugin, project) {
+  function PluginCtrl(plugin) {
     angular.extend(this, plugin);
   }
 }());

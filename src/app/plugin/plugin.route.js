@@ -26,7 +26,10 @@
      * param and passing that to $gcPlugin which would in turn give back
      * the controller/template stuff..
      */
-    return $gcPlugin.load('app/components/storage-browser/storage-browser.controller')
+    return $gcPlugin.load([
+        'app/components/storage-browser/storage-browser.controller.js'//,
+        // 'app/components/storage-browser/storage-browser.css'
+      ])
       .then(function() {
         return {
           controller: 'StorageBrowserCtrl',

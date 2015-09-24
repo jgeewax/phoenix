@@ -17,7 +17,9 @@
       });
 
       return $q.all(imports).then(function(mod) {
-        return $ocLazyLoad.inject(mod);
+        return $ocLazyLoad.inject(mod).then(function() {
+          return mod;
+        });
       });
     }
 
