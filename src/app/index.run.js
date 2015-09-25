@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $urlRouter, GAuth, GData, CLIENT_ID) {
+  function runBlock($rootScope, $urlRouter, $injector, GAuth, GData, CLIENT_ID) {
     GAuth.setClient(CLIENT_ID);
 
     $rootScope.$on('$stateChangeError', function() {
@@ -20,10 +20,10 @@
 
       e.preventDefault();
 
-      GAuth.checkAuth().then(null, function() {
-        return GAuth.login();
-      }).then(function() {
+      GAuth.checkAuth().then(function() {
         $urlRouter.sync();
+      }, function() {
+        $injector.get('$state').go('login');
       });
     });
 
