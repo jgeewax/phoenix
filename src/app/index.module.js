@@ -7,6 +7,7 @@
       'ngSanitize',
       'ui.router',
       'ngMaterial',
+      'md.data.table',
       'angular-google-gapi',
       'oc.lazyLoad'
     ]);
