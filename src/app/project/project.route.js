@@ -10,23 +10,35 @@
     $stateProvider
       .state('project', {
         parent: 'projects',
+        controller: 'ProjectCtrl',
+        controllerAs: 'project',
         url: '/:projectId',
         templateUrl: 'app/project/project.html',
-        resolve: { project: getProject }
+        resolve: { plugins: getPlugins }
+      })
+      .state('project.plugin', {
+        url: '/:pluginId',
+        resolve: { plugin: loadPlugin }
       });
   }
 
   /** @ngInject */
-  function getProject($stateParams, projectList) {
+  function getPlugins($stateParams, $gcProject) {
     var projectId = $stateParams.projectId;
 
-    for (var i = 0; i < projectList.length; i++) {
-      if (projectList[i].projectId === projectId) {
-        return projectList[i];
-      }
-    }
+    return $gcProject(projectId).getPlugins();
+  }
 
-    throw new Error('Unknown project id "' + projectId + '"');
+  /** @ngInject */
+  function loadPlugin($stateParams, $gcProject, $state) {
+    var projectId = $stateParams.projectId;
+    var pluginId = $stateParams.pluginId;
+
+    return $gcProject(projectId)
+      .loadPlugin(pluginId)
+      .then(function() {
+        $state.go(pluginId);
+      });
   }
 
 })();

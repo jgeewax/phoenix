@@ -4,8 +4,10 @@
       <md-icon>extension</md-icon>
       <span>Plugins</span>
     </li>
-    <li>
-      <a ui-sref="plugin({ pluginId: 'bucket-explorer' })" class="project-nav-link">Bucket Explorer</a>
+    <li ng-repeat="plugin in project.plugins">
+      <a ui-sref="project.plugin({ pluginId: plugin.slug })" class="project-nav-link">
+        {{::plugin.title}}
+      </a>
     </li>
   </ul>
 </md-sidenav>
