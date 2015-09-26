@@ -1,29 +1,60 @@
-<md-content flex layout-padding class="md-whiteframe-z1">
-  <md-subheader>
-    <md-button class="md-raised md-accent" ng-click="plugin.createBucket()">Create bucket</md-button>
-    <md-button class="md-icon-button" aria-lable="Refresh" ng-click="plugin.refresh()">
+<md-content flex class="md-whiteframe-z1 storage-browser">
+  <!-- default toolbar -->
+  <md-data-table-toolbar ng-if="browser.isIdle()">
+    <h2 class="md-title">Buckets</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="browser.createBucket()">
+      <md-tooltip>Create bucket</md-tooltip>
+      <md-icon>add</md-icon>
+    </md-button>
+    <md-button class="md-icon-button" ng-click="browser.refreshBuckets()">
       <md-tooltip>Refresh</md-tooltip>
       <md-icon>refresh</md-icon>
     </md-button>
-    <span flex></span>
-    <md-input-container md-no-float class="storage-browser-filter">
-      <input type="text" placeholder="Filter" ng-model="plugin.filter">
-    </md-input-container>
-  </md-subheader>
-  <table class="storage-browser-table">
-    <thead>
-      <tr>
-        <th class="lefty">Name</th>
-        <th class="lefty">Storage class</th>
-        <th class="lefty">Location</th>
-      </tr>
-    </thead>
-    <tbody>
-      <tr ng-repeat="bucket in plugin.buckets | filter:{name: plugin.filter}">
-        <td class="lefty">{{bucket.name}}</td>
-        <td class="lefty">{{bucket.storageClass}}</td>
-        <td class="lefty">{{bucket.location}}</td>
-      </tr>
-    </tbody>
-  </table>
+    <md-button class="md-icon-button" ng-click="browser.filtering = true">
+      <md-tooltip>Filter</md-tooltip>
+      <md-icon>filter_list</md-icon>
+    </md-button>
+  </md-data-table-toolbar>
+
+  <!-- filter toolbar -->
+  <md-data-table-toolbar class="storage-browser-filter" ng-if="browser.filtering">
+    <md-icon>search</md-icon>
+    <input flex type="text" placeholder="Filter prefix" ng-model="browser.filter" />
+    <md-button class="md-icon-button" ng-click="browser.filtering = false">
+      <md-tooltip>Cancel</md-tooltip>
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-data-table-toolbar>
+
+  <!-- delete toolbar -->
+  <md-data-table-toolbar class="storage-browser-delete" ng-if="browser.isSelected()">
+    <div flex>
+      {{browser.selected.length}} {{browser.getVerbiage()}} selected
+    </div>
+    <md-button class="md-icon-button" ng-click="browser.deleteBuckets()">
+      <md-tooltip>Delete</md-tooltip>
+      <md-icon>delete</md-icon>
+    </md-button>
+  </md-data-table-toolbar>
+
+  <!-- table content -->
+  <md-data-table-container>
+    <table md-data-table md-row-select="browser.selected">
+      <thead>
+        <tr>
+          <th name="Name"></th>
+          <th name="Storage class"></th>
+          <th name="Location"></th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr md-auto-select ng-repeat="bucket in browser.buckets">
+          <td>{{bucket.name}}</td>
+          <td>{{bucket.storageClass}}</td>
+          <td>{{bucket.location}}</td>
+        </tr>
+      </tbody>
+    </table>
+  </md-data-table-container>
 </md-content>
