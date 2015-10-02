@@ -5,14 +5,9 @@
     .module('gcloudConsole')
     .controller('ProjectCtrl', ProjectCtrl);
 
-  function ProjectCtrl(plugins, string) {
+  function ProjectCtrl($project) {
     var project = this;
 
-    project.plugins = plugins.map(function(plugin) {
-      return {
-        slug: string.slug(plugin.name),
-        title: string.title(plugin.name)
-      };
-    });
+    project.plugins = $project.plugins;
   }
 }());

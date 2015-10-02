@@ -3,55 +3,95 @@
 
   angular
     .module('gcloudConsole')
-    .factory('$gcProject', $gcProject);
+    .factory('projectservice', projectservice);
 
   /** @ngInject */
-  function $gcProject($q, $ocLazyLoad, System) {
-    // mock data..
-    var plugins = {
-      'storage-browser': {
-        files: 'app/components/storage-browser/storage-browser.controller.js'
-      }
-    };
+  function projectservice($q, $interpolate, $http, System, $ocLazyLoad, projectCache, projectStorage) {
+    var getConfigUrl = $interpolate('https://raw.githubusercontent.com/{{repository}}/{{version}}/package.json');
+    var getFileUrl = $interpolate('github:{{repository}}@{{version}}/{{file}}');
 
     function Project(id) {
-      if (!(this instanceof Project)) {
-        return new Project(id);
-      }
-
       this.id = id;
+      this.plugins = [];
     }
 
-    Project.prototype.getPlugins = function() {
-      // this would come from another (prolly async) call.. we would store a
-      // list of installed plugins somewhere (localStorage, etc.) then request
-      // them within this call
-      var pluginList = Object.keys(plugins).map(function(plugin) {
-        return { name: plugin };
+    Project.prototype.load = function() {
+      var self = this;
+
+      this.storage = projectStorage({
+        projectId: this.id,
+        driver: 'localStorage'
       });
 
-      return $q.resolve(pluginList);
+      return this.storage.getItem('plugins')
+        .then(function(plugins) {
+          self.plugins = plugins;
+        });
     };
 
-    Project.prototype.loadPlugin = function(name) {
-      // this would comes from another (prolly async) call.. we would parse a
-      // plugins package.json and retrieve a list of files to load (or maybe
-      // just the main file and let the module lazy load the rest..)
-      var files = (plugins[name] || {}).files;
-
-      var imports = arrayify(files).map(function(file) {
-        return System.import(file);
-      });
-
-      return $q.all(imports).then(function(modules) {
-        return $ocLazyLoad.inject(modules);
-      });
+    Project.prototype.addPlugin = function(plugin) {
+      this.plugins.push(plugin);
+      return this.storage.setItem('plugins', this.plugins);
     };
 
-    return Project;
-  }
+    Project.prototype.removePlugin = function(plugin) {
+      var index = this.plugins.indexOf(plugin);
 
-  function arrayify(thing) {
-    return angular.isArray(thing) ? thing : [thing];
+      this.plugins.splice(index, 1);
+      return this.storage.setItem('plugins', this.plugins);
+    };
+
+    Project.prototype.getPlugin = function(pluginId) {
+      var length = this.plugins.length;
+      var i = 0;
+      var plugin;
+
+      for (; i < length; i++) {
+        plugin = this.plugins[i];
+
+        if (plugin.id === pluginId) {
+          return plugin;
+        }
+      }
+
+      return null;
+    };
+
+    Project.prototype.loadPlugin = function(pluginId) {
+      var plugin = this.getPlugin(pluginId);
+      var pluginUrl;
+
+      if (!plugin) {
+        return $q.reject('Unknown plugin "' + pluginId + '"');
+      }
+
+      pluginUrl = getConfigUrl(plugin);
+
+      return $http.get(pluginUrl, { cache: projectCache })
+        .then(function(response) {
+          var files = response.data.files.map(function(file) {
+            var moduleUrl = getFileUrl(angular.extend({ file: file }, plugin));
+
+            return System.import(moduleUrl);
+          });
+
+          return $q.all(files);
+        })
+        .then(function(modules) {
+          return $ocLazyLoad.inject(modules);
+        });
+    };
+
+    function load(projectId) {
+      var project = new Project(projectId);
+
+      return project.load().then(function() {
+        return project;
+      });
+    }
+
+    return {
+      load: load
+    };
   }
 }());

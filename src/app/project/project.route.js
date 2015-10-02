@@ -14,27 +14,24 @@
         controllerAs: 'project',
         url: '/:projectId',
         templateUrl: 'app/project/project.html',
-        resolve: { plugins: getPlugins }
+        resolve: { $project: loadProject }
       })
       .state('project.plugin', {
-        url: '/:pluginId',
+        url: '/plugins/:pluginId',
         resolve: { plugin: loadPlugin }
       });
   }
 
   /** @ngInject */
-  function getPlugins($stateParams, $gcProject) {
-    var projectId = $stateParams.projectId;
-
-    return $gcProject(projectId).getPlugins();
+  function loadProject($stateParams, projectservice) {
+    return projectservice.load($stateParams.projectId);
   }
 
   /** @ngInject */
-  function loadPlugin($stateParams, $gcProject, $state) {
-    var projectId = $stateParams.projectId;
+  function loadPlugin($stateParams, $project, $state) {
     var pluginId = $stateParams.pluginId;
 
-    return $gcProject(projectId)
+    return $project
       .loadPlugin(pluginId)
       .then(function() {
         $state.go(pluginId);

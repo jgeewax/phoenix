@@ -1,0 +1,41 @@
+<md-content flex class="md-whiteframe-z1 plugin-explorer">
+  <!-- default toolbar -->
+  <md-data-table-toolbar ng-if="!plugins.filtering">
+    <h2 class="md-title">Plugins</h2>
+    <span flex></span>
+    <md-button class="md-icon-button" ng-click="plugins.filtering = true">
+      <md-tooltip>Filter</md-tooltip>
+      <md-icon>filter_list</md-icon>
+    </md-button>
+  </md-data-table-toolbar>
+
+  <!-- search toolbar -->
+  <md-data-table-toolbar ng-if="plugins.filtering">
+    <md-icon>search</md-icon>
+    <input flex type="text" placeholder="Search {{plugins.list.length}} plugins.." ng-model="plugins.filter" class="plugin-explorer-filter" />
+     <md-button class="md-icon-button" ng-click="plugins.filtering = false">
+      <md-tooltip>Cancel</md-tooltip>
+      <md-icon>close</md-icon>
+    </md-button>
+  </md-data-table-toolbar>
+
+  <!-- plugin table -->
+  <md-data-table-container>
+    <table md-data-table>
+      <thead>
+        <tr>
+          <th name="Name" />
+          <th name="Enabled" />
+        </tr>
+      </thead>
+      <tbody>
+        <tr ng-repeat="plugin in plugins.list | filter: plugins.filter">
+          <td>{{plugin.title}}</td>
+          <td>
+            <md-switch ng-model="plugin.isEnabled" aria-label="Enable plugin" ng-change="plugins.toggle(plugin)"></md-switch>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </md-data-table-container>
+</md-content>

@@ -1,31 +1,70 @@
+// .project-nav {
+//   background-color: rgb(250, 250, 250) !important;
+
+//   &-list {
+//     margin: 0;
+//     padding: 0;
+//     line-height: 40px;
+//     color: rgba(0,0,0,0.54);
+//   }
+
+//   &-list-header {
+//     padding: 0 16px;
+//     margin-top: 8px;
+
+//     & md-icon {
+//       font-size: 20px;
+//     }
+//   }
+
+//   &-link {
+//     display: block;
+//     padding: 0 16px 0 32px;
+//     text-decoration: none;
+//     color: rgba(0,0,0,0.87);
+//     transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+//     &:hover {
+//       background-color: rgba(158,158,158,0.2);
+//     }
+//   }
+// }
+
 .project-nav {
   background-color: rgb(250, 250, 250) !important;
+}
 
-  &-list {
-    margin: 0;
-    padding: 0;
-    line-height: 40px;
-    color: rgba(0,0,0,0.54);
+.project-nav-item,
+.project-nav-item .md-list-item-inner {
+  min-height: 48px;
+}
+
+.project-nav-item {
+  padding: 0 !important;
+}
+
+.project-nav-item .md-list-item-inner {
+  padding: 0 16px;
+}
+
+.project-nav-item-header {
+  color: rgba(0,0,0,0.54);
+}
+
+.project-nav-item-header ~ .project-nav-item .md-list-item-inner {
+  padding-left: 32px;
+}
+
+.project-nav a {
+  color: rgba(0, 0, 0, 0.87);
+  text-decoration: none;
+  transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
+
+  &:hover {
+    background-color: rgba(158, 158, 158, 0.2);
   }
+}
 
-  &-list-header {
-    padding: 0 16px;
-    margin-top: 8px;
-
-    & md-icon {
-      font-size: 20px;
-    }
-  }
-
-  &-link {
-    display: block;
-    padding: 0 16px 0 32px;
-    text-decoration: none;
-    color: rgba(0,0,0,0.87);
-    transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
-
-    &:hover {
-      background-color: rgba(158,158,158,0.2);
-    }
-  }
+.project-nav md-icon {
+  margin-left: 0;
 }

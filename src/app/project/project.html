@@ -1,14 +1,28 @@
+<!-- project nav -->
 <md-sidenav flex md-is-locked-open="true" class="md-sidenav-left md-whiteframe-z1 project-nav">
-  <ul class="project-nav-list">
-    <li class="project-nav-list-header">
-      <md-icon>extension</md-icon>
-      <span>Plugins</span>
-    </li>
-    <li ng-repeat="plugin in project.plugins">
-      <a ui-sref="project.plugin({ pluginId: plugin.slug })" class="project-nav-link">
+  <md-list ng-if="project.plugins.length">
+    <md-list-item class="project-nav-item project-nav-item-header">
+      <div class="md-list-item-inner">
+        <md-icon>extension</md-icon>
+        <span flex>Plugins</span>
+      </div>
+    </md-list-item>
+    <md-list-item ng-repeat="plugin in project.plugins" class="project-nav-item">
+      <a ui-sref="project.plugin({ pluginId: plugin.id })" class="md-list-item-inner" flex>
         {{::plugin.title}}
       </a>
-    </li>
-  </ul>
+    </md-list-item>
+  </md-list>
+  <md-divider ng-if="project.plugins.length"></md-divider>
+  <md-list>
+    <md-list-item class="project-nav-item">
+      <a ui-sref="plugins" class="md-list-item-inner" flex>
+        <md-icon>add</md-icon>
+        Add plugins
+      </a>
+    </md-list-item>
+  </md-list>
 </md-sidenav>
+
+<!-- project content -->
 <div layout="column" flex ui-view></div>
