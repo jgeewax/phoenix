@@ -5,10 +5,8 @@
     .module('gcloudConsole')
     .factory('resource', resource);
 
-  function resource($http, $cacheFactory, GAuth) {
-    var SCOPE = 'https://www.googleapis.com/auth/cloud-platform';
+  function resource($http, $cacheFactory, GAuth, CLOUD_SCOPE) {
     var BASE = 'https://cloudresourcemanager.googleapis.com/v1beta1';
-
     var cache = $cacheFactory('resource');
 
     function getRequestConfig(options, token) {
@@ -23,7 +21,7 @@
     }
 
     function request(options) {
-      GAuth.setScope(SCOPE);
+      GAuth.setScope(CLOUD_SCOPE);
 
       return GAuth.getToken()
         .then(function(token) {

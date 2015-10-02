@@ -6,8 +6,9 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $urlRouter, $injector, GAuth, GData, CLIENT_ID) {
+  function runBlock($rootScope, $urlRouter, $injector, GAuth, GData, CLIENT_ID, CLOUD_SCOPE) {
     GAuth.setClient(CLIENT_ID);
+    GAuth.setScope(CLOUD_SCOPE);
 
     $rootScope.$on('$stateChangeError', function() {
       console.log(arguments);
