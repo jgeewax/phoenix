@@ -6,7 +6,7 @@
     .config(config);
 
   /** @ngInject */
-  function config($mdThemingProvider, System) {
+  function config($mdThemingProvider) {
     var consolePalette = $mdThemingProvider.extendPalette('grey', {
       '0': '#9e9e9e',
       '500': '#fafafa'
@@ -17,13 +17,6 @@
     $mdThemingProvider.theme('default')
       .primaryPalette('consolePalette')
       .accentPalette('blue');
-
-    System.config({
-      paths: {
-        "github:*": "https://github.jspm.io/*.js",
-        "npm:*": "https://npm.jspm.io/*.js"
-      }
-    });
   }
 
 })();
