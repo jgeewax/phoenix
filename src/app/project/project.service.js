@@ -25,7 +25,7 @@
 
       return this.storage.getItem('plugins')
         .then(function(plugins) {
-          self.plugins = plugins;
+          self.plugins = plugins || [];
         });
     };
 
