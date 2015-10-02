@@ -71,14 +71,19 @@
         .then(function(response) {
           var files = response.data.files.map(function(file) {
             var moduleUrl = getFileUrl(angular.extend({ file: file }, plugin));
-
             return System.import(moduleUrl);
           });
 
           return $q.all(files);
         })
         .then(function(modules) {
-          return $ocLazyLoad.inject(modules);
+          modules = modules.filter(function(mod) {
+            return mod && mod.name;
+          }).map(function(mod) {
+            return $ocLazyLoad.inject(mod);
+          });
+
+          return $q.all(modules);
         });
     };
 
