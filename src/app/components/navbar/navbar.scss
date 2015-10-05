@@ -1,6 +1,4 @@
 .navbar {
-  padding: 0 24px;
-
   &-user-icon {
     width: 100%;
     height: auto;
@@ -22,5 +20,19 @@
 
   &-project-link {
     line-height: 48px;
+  }
+
+  @media (min-width: $md) {
+    padding: 0 24px;
+
+    &-sidemenu-button {
+      display: none;
+    }
+  }
+
+  @media (max-width: $md) {
+    &-logo {
+      display: none;
+    }
   }
 }

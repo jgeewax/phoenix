@@ -1,4 +1,7 @@
 <md-toolbar layout="row" layout-align="start center" class="md-whiteframe-z1 navbar">
+  <md-button class="md-icon-button navbar-sidemenu-button" ng-if="navbar.hasSideNav()" ng-click="navbar.openSideNav()">
+    <md-icon>menu</md-icon>
+  </md-button>
   <a ui-sref="projects" title="Developer Console Projects">
     <img class="navbar-logo" src="assets/images/logo-color.svg" alt="gcloud">
   </a>

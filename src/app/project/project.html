@@ -1,5 +1,5 @@
 <!-- project nav -->
-<md-sidenav flex md-is-locked-open="true" class="md-sidenav-left md-whiteframe-z1 project-nav">
+<sidenav class="project-nav">
   <md-list ng-if="project.plugins.length">
     <md-list-item class="project-nav-item project-nav-item-header">
       <div class="md-list-item-inner">
@@ -8,21 +8,21 @@
       </div>
     </md-list-item>
     <md-list-item ng-repeat="plugin in project.plugins" class="project-nav-item">
-      <a ui-sref="project.plugin({ pluginId: plugin.id })" class="md-list-item-inner" flex>
+      <sidenav-link ui-sref="project.plugin({ pluginId: plugin.id })">
         {{::plugin.title}}
-      </a>
+      </sidenav-link>
     </md-list-item>
   </md-list>
   <md-divider ng-if="project.plugins.length"></md-divider>
   <md-list>
     <md-list-item class="project-nav-item">
-      <a ui-sref="plugins" class="md-list-item-inner" flex>
+      <sidenav-link ui-sref="plugins">
         <md-icon>add</md-icon>
         Add plugins
-      </a>
+      </sidenav-link>
     </md-list-item>
   </md-list>
-</md-sidenav>
+</sidenav>
 
 <!-- project content -->
 <div layout="column" flex ui-view></div>

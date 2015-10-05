@@ -22,7 +22,7 @@
   }
 
   /** @ngInject */
-  function NavbarCtrl($state, $scope, GAuth) {
+  function NavbarCtrl($state, $scope, Navbar, GAuth) {
     var DEFAULT_OPTION = 'Select a project';
 
     var navbar = this;
@@ -30,7 +30,8 @@
 
     navbar.selectedProject = DEFAULT_OPTION;
     navbar.logout = logout;
-
+    navbar.openSideNav = Navbar.openSideNav;
+    navbar.hasSideNav = hasSideNav;
 
     $scope.$watch(getProjectId, setSelectedProject);
 
@@ -54,6 +55,10 @@
       return GAuth.logout().then(function() {
         $state.go('login');
       });
+    }
+
+    function hasSideNav() {
+      return !!Navbar.getSideNav();
     }
   }
 }());
