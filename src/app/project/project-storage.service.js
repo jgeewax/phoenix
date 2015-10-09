@@ -4,6 +4,7 @@
 
   angular
     .module('gcloudConsole')
+    .factory('firebaseDriver', firebaseDriver)
     .factory('localStorageDriver', localStorageDriver)
     .factory('projectStorage', projectStorage);
 
@@ -47,6 +48,57 @@
     };
 
     return ProjectStorage;
+  }
+
+  /** @ngInject */
+  function firebaseDriver($q, firebase, GData) {
+    var userId = GData.getUser().id;
+
+    function FirebaseDriver(projectId) {
+      if (!(this instanceof FirebaseDriver)) {
+        return new FirebaseDriver(projectId);
+      }
+
+      var url = 'https://phoenix-storage.firebaseio.com/projects/' + projectId + '/users/' + userId;
+      this.getRef = firebase.getRef(url);
+    }
+
+    FirebaseDriver._sanitize = function(data) {
+      data = angular.copy(data);
+      data.lastModified = new Date().toJSON();
+      return data;
+    };
+
+    FirebaseDriver.prototype.write = function(data) {
+      var deferred = $q.defer();
+
+      this.getRef.then(function(ref) {
+        ref.set(FirebaseDriver._sanitize(data), function(err) {
+          if (err) {
+            deferred.reject(err);
+            return;
+          }
+
+          deferred.resolve();
+        });
+      });
+
+      return deferred.promise;
+    };
+
+    FirebaseDriver.prototype.read = function() {
+      var deferred = $q.defer();
+
+      this.getRef.then(function(ref) {
+        ref.once('value', function(snap) {
+          deferred.resolve(snap.val() || {});
+        });
+      });
+
+      return deferred.promise;
+    };
+
+    return FirebaseDriver;
   }
 
   /** @ngInject */

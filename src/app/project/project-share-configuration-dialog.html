@@ -1,0 +1,25 @@
+<md-dialog aria-label="Share configuration dialog" flex="33">
+  <md-dialog-content>
+    <h2>Share Configuration</h2>
+    <p>
+      Sharing your configuration allows others to use the same dashboard you've created within their own projects.
+    </p>
+    <p ng-if="dialog.creating">
+      <small>
+        <em>Note: Names must not contain spaces.</em>
+      </small>
+    </p>
+    <p ng-if="!dialog.creating">
+      Your configuration is now available from this URL: <a ng-href="{{dialog.url}}">{{dialog.url}}</a>
+    </p>
+    <md-input-container ng-if="dialog.creating">
+      <label>Name</label>
+      <input type="text" ng-model="dialog.name" pattern="\S+" required>
+    </md-input-container>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button class="md-raised md-accent" ng-if="dialog.creating" ng-click="dialog.share()" ng-disabled="!dialog.name">Share</md-button>
+    <md-button ng-if="dialog.creating" ng-click="dialog.close()">Cancel</md-button>
+    <md-button ng-if="!dialog.creating" ng-click="dialog.close()">Ok</md-button>
+  </div>
+</md-dialog>
