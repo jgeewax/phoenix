@@ -70,7 +70,12 @@
       return $http.get(pluginUrl, { cache: projectCache })
         .then(function(response) {
           var files = response.data.files.map(function(file) {
-            var moduleUrl = getFileUrl(angular.extend({ file: file }, plugin));
+            var module = angular.extend({ file: file }, plugin);
+            var moduleUrl;
+
+            module.version = module.version.replace(/^v/, '');
+            moduleUrl = getFileUrl(module);
+
             return System.import(moduleUrl);
           });
 
