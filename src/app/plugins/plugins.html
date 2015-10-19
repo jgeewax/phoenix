@@ -25,14 +25,17 @@
       <thead>
         <tr>
           <th name="Name" />
-          <th name="Enabled" />
+          <th name="" />
         </tr>
       </thead>
       <tbody>
         <tr ng-repeat="plugin in plugins.list | filter: plugins.filter">
           <td>{{plugin.title}}</td>
           <td>
-            <md-switch ng-model="plugin.isEnabled" aria-label="Enable plugin" ng-change="plugins.toggle(plugin)"></md-switch>
+            <md-button class="md-icon-button" ng-click="dashboard.configure(plugin, false)">
+              <md-tooltip>Add plugin</md-tooltip>
+              <md-icon>add</md-icon>
+            </md-button>
           </td>
         </tr>
       </tbody>

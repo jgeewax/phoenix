@@ -6,19 +6,9 @@
     .controller('PluginsCtrl', PluginsCtrl);
 
   /** @ngInject */
-  function PluginsCtrl(pluginList, $dashboard) {
+  function PluginsCtrl(pluginList) {
     var plugins = this;
 
     plugins.list = pluginList;
-    plugins.toggle = toggle;
-
-    function toggle(plugin) {
-      if (plugin.isEnabled) {
-        $dashboard.addPlugin(plugin);
-        return;
-      }
-
-      $dashboard.removePlugin(plugin);
-    }
   }
 }());

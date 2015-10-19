@@ -1,0 +1,17 @@
+<md-dialog>
+  <md-dialog-content>
+    <!-- {{vm.plugin.title}} -->
+    <form name="pluginForm">
+      <div class="md-layout-row">
+        <md-input-container>
+          <label>Name</label>
+          <input type="text" ng-model="vm.plugin.title">
+        </md-input-container>
+      </div>
+    </form>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="vm.save()">Save</md-button>
+    <md-button ng-click="vm.close()">Cancel</md-button>
+  </div>
+</md-dialog>

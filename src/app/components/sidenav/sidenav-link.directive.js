@@ -19,7 +19,11 @@
 
   // what a terrible name!
   function sidenavLinkLink(scope, elem, attrs, sidenavCtrl) {
-    elem.on('click', function() {
+    elem.on('click', function(e) {
+      if (elem.hasClass('sidenav-link-active')) {
+        e.preventDefault();
+      }
+
       sidenavCtrl.close();
     });
   }
