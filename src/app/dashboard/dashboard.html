@@ -1,20 +1,44 @@
 <!-- dashboard nav -->
 <sidenav class="dashboard-nav">
-  <md-list ng-if="$dashboard.plugins.length">
-    <md-list-item class="dashboard-nav-item dashboard-nav-item-header">
+  <md-list>
+    <md-list-item class="dashboard-nav-item">
       <div class="md-list-item-inner">
-        <md-icon>extension</md-icon>
-        <span flex>Plugins</span>
+        {{$dashboard.id}}
       </div>
     </md-list-item>
-    <md-list-item ng-repeat="plugin in $dashboard.plugins track by $index" class="dashboard-nav-item">
+    <md-divider></md-divider>
+    <md-list-item ng-repeat="plugin in $dashboard.plugins | orderBy:'title' track by plugin.title" class="dashboard-nav-item md-with-secondary">
       <sidenav-link ui-sref="plugin({ pluginId: plugin.id })">
-        {{::plugin.title}}
+        <md-icon>extension</md-icon>
+        {{plugin.title}}
       </sidenav-link>
+      <md-menu class="plugin-menu">
+        <md-button class="md-icon-button md-secondary-container" ng-click="$mdOpenMenu($event)">
+          <md-icon>more_vert</md-icon>
+        </md-button>
+        <md-menu-content width="3">
+          <md-menu-item ng-click="dashboard.configure(plugin, true)">
+            <md-button>
+              <md-icon>settings</md-icon>
+              Settings
+            </md-button>
+          </md-menu-item>
+          <md-menu-item>
+            <md-button ng-click="dashboard.clone(plugin)">
+              <md-icon>content_copy</md-icon>
+              Clone
+            </md-button>
+          </md-menu-item>
+          <md-divider></md-divider>
+          <md-menu-item>
+            <md-button ng-click="dashboard.remove(plugin)">
+              <md-icon>delete</md-icon>
+              Delete
+            </md-button>
+          </md-menu-item>
+        </md-menu-content>
+      </md-menu>
     </md-list-item>
-  </md-list>
-  <md-divider ng-if="$dashboard.plugins.length"></md-divider>
-  <md-list>
     <md-list-item class="dashboard-nav-item">
       <sidenav-link ui-sref="plugins">
         <md-icon>add</md-icon>

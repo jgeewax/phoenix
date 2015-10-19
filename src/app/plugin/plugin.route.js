@@ -1,4 +1,3 @@
-/* global setTimeout:true */
 (function() {
   'use strict';
 
@@ -22,11 +21,27 @@
   function getPlugin($dashboard, $state, $stateParams) {
     var pluginId = $stateParams.pluginId;
 
+    function getDefaultState() {
+      return { state: pluginId };
+    }
+
+    function getPluginFiles($plugin) {
+      var hasState = !!$state.get(pluginId);
+
+      if (hasState) {
+        return $plugin;
+      }
+
+      return $dashboard
+        .loadPlugin($plugin.state)
+        .then(function() {
+          return $plugin;
+        });
+    }
+
     return $dashboard
-      .loadPlugin(pluginId)
-      .then(function() {
-        setTimeout(angular.bind($state, $state.go), 0, pluginId);
-        return $dashboard.getPlugin(pluginId);
-      });
+      .getPlugin(pluginId)
+      .then(null, getDefaultState)
+      .then(getPluginFiles);
   }
 }());

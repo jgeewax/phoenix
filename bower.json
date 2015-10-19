@@ -11,8 +11,10 @@
     "angular-sanitize": "~1.4.0",
     "angular-ui-router": "~0.2.15",
     "jquery": "~2.1.4",
+    "lodash": "~3.10.1",
     "oclazyload": "~1.0.5",
-    "system.js": "~0.19.0"
+    "system.js": "~0.19.0",
+    "speakingurl": "~7.0.0"
   },
   "devDependencies": {
     "angular-mocks": "~1.4.0"

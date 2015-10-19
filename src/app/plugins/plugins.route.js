@@ -19,16 +19,10 @@
   }
 
   /** @ngInject */
-  function getPluginList($http, $dashboard, projectCache) {
+  function getPluginList($http, projectCache) {
     return $http.get('plugins.json', { cache: projectCache })
       .then(function(response) {
-        var plugins = response.data;
-
-        plugins.forEach(function(plugin) {
-          plugin.isEnabled = !!$dashboard._getPluginById(plugin.id);
-        });
-
-        return plugins;
+        return response.data;
       });
   }
 }());

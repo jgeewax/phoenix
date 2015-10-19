@@ -19,20 +19,21 @@
   color: rgba(0,0,0,0.54);
 }
 
-.dashboard-nav-item-header ~ .dashboard-nav-item .md-list-item-inner {
-  padding-left: 32px;
-}
-
 .dashboard-nav a {
   color: rgba(0, 0, 0, 0.87);
   text-decoration: none;
   transition: background-color 0.4s cubic-bezier(0.25, 0.8, 0.25, 1);
 
-  &:hover {
+  &:hover,
+  &.sidenav-link-active {
     background-color: rgba(158, 158, 158, 0.2);
   }
 }
 
 .dashboard-nav md-icon {
   margin-left: 0;
+}
+
+.plugin-menu > .md-button {
+  right: 0;
 }

@@ -1,3 +1,4 @@
+/* global getSlug:true */
 (function() {
   /* jshint newcap:false */
   'use strict';
@@ -20,23 +21,18 @@
       this.plugins = plugins || [];
     }
 
-    $Dashboard.prototype._getPluginById = function(pluginId) {
-      var l = this.plugins.length;
-      var i = 0;
+    $Dashboard.prototype.getPluginById = function(pluginId) {
+      return _.findWhere(this.plugins, { id: pluginId });
+    };
 
-      for (; i < l; i++) {
-        if (this.plugins[i].id === pluginId) {
-          return this.plugins[i];
-        }
-      }
-
-      return null;
+    $Dashboard.prototype.getPluginByTitle = function(title) {
+      return _.findWhere(this.plugins, { title: title });
     };
 
     $Dashboard.prototype.loadPlugin = function(pluginId) {
-      var plugin = this._getPluginById(pluginId);
+      var plugin = this.getPluginById(pluginId);
       var pluginUrl;
-console.log(plugin);
+
       if (!plugin) {
         return $q.reject('Unknown plugin "' + pluginId + '"');
       }
@@ -71,7 +67,7 @@ console.log(plugin);
     };
 
     $Dashboard.prototype.getPlugin = function(pluginId) {
-      var plugin = this._getPluginById(pluginId);
+      var plugin = this.getPluginById(pluginId);
 
       if (!plugin) {
         return $q.reject('Unknown plugin "' + pluginId + '"');
@@ -80,14 +76,31 @@ console.log(plugin);
       return $q.resolve(new $Plugin(plugin));
     };
 
-    $Dashboard.prototype.addPlugin = function(plugin) {
-      this.plugins.push(plugin);
+    $Dashboard.prototype.save = function() {
       return storage.setItem(this.id, this.plugins);
+    };
+
+    $Dashboard.prototype.addPlugin = function(plugin) {
+      plugin.id = getSlug(plugin.title);
+      this.plugins.push(plugin);
+
+      return this.save();
+    };
+
+    $Dashboard.prototype.updatePlugin = function(title, updatedPlugin) {
+      var plugin = this.getPluginByTitle(title);
+
+      if (plugin) {
+        this.removePlugin(plugin);
+      }
+
+      return this.addPlugin(updatedPlugin);
     };
 
     $Dashboard.prototype.removePlugin = function(plugin) {
       this.plugins.splice(this.plugins.indexOf(plugin), 1);
-      return storage.setItem(this.id, this.plugins);
+
+      return this.save();
     };
 
     return $Dashboard;

@@ -1,6 +1,6 @@
 [{
   "title": "Storage Browser",
-  "id": "storage-browser",
+  "state": "storage-browser",
   "repository": "jgeewax/gcloud-ui-storage-browser",
   "version": "v0.0.2"
 }]
