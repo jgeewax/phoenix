@@ -12,7 +12,7 @@
     </md-button>
     <md-menu-content width="3">
       <md-menu-item ng-repeat="option in navbar.projects">
-        <md-button ui-sref="project({ projectId: option.projectId })" class="navbar-project-link">
+        <md-button ui-sref="dashboard({ projectId: option.projectId, dashboardId: 'default' })" class="navbar-project-link">
           {{option.name}}
         </md-button>
       </md-menu-item>

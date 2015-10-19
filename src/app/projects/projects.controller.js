@@ -5,9 +5,7 @@
     .module('gcloudConsole')
     .controller('ProjectsCtrl', ProjectsCtrl);
 
-  function ProjectsCtrl(projectList) {
-    var projects = this;
-
-    projects.list = projectList;
+  function ProjectsCtrl($scope, $projects) {
+    $scope.$projects = $projects;
   }
 }());

@@ -3,23 +3,28 @@
 
   angular
     .module('gcloudConsole')
-    .config(routeConfig);
+    .config(projectsRoutes);
 
   /** @ngInject */
-  function routeConfig($stateProvider) {
+  function projectsRoutes($stateProvider) {
     $stateProvider
       .state('projects', {
         url: '/projects',
         templateUrl: 'app/projects/projects.html',
         controller: 'ProjectsCtrl',
         controllerAs: 'projects',
-        resolve: { projectList: getProjects }
+        resolve: { $projects: getProjects }
       });
   }
 
   /** @ngInject */
-  function getProjects(resource) {
-    return resource.getProjectList();
+  function getProjects($Projects, resource) {
+    return resource
+      .getProjectList()
+      .then(function(projects) {
+        /* jshint newcap:false */
+        return new $Projects(projects);
+      });
   }
 
 })();

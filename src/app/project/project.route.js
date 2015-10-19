@@ -13,29 +13,13 @@
         controller: 'ProjectCtrl',
         controllerAs: 'project',
         url: '/:projectId',
-        templateUrl: 'app/project/project.html',
-        resolve: { $project: loadProject }
-      })
-      .state('project.plugin', {
-        url: '/plugins/:pluginId',
-        resolve: { plugin: loadPlugin }
+        template: '<div flex layout="row" layout-margin ui-view />',
+        resolve: { $project: getProject }
       });
   }
 
   /** @ngInject */
-  function loadProject($stateParams, projectservice) {
-    return projectservice.load($stateParams.projectId);
+  function getProject($projects, $stateParams) {
+    return $projects.getProject($stateParams.projectId);
   }
-
-  /** @ngInject */
-  function loadPlugin($stateParams, $project, $state) {
-    var pluginId = $stateParams.pluginId;
-
-    return $project
-      .loadPlugin(pluginId)
-      .then(function() {
-        $state.go(pluginId);
-      });
-  }
-
 })();

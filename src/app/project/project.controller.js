@@ -5,9 +5,8 @@
     .module('gcloudConsole')
     .controller('ProjectCtrl', ProjectCtrl);
 
-  function ProjectCtrl($project) {
-    var project = this;
-
-    project.plugins = $project.plugins;
+  /** @ngInject */
+  function ProjectCtrl($scope, $project) {
+    $scope.$project = $project;
   }
 }());

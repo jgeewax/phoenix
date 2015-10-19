@@ -9,7 +9,7 @@
   function routeConfig($stateProvider) {
     $stateProvider
       .state('plugins', {
-        parent: 'project',
+        parent: 'dashboard',
         controller: 'PluginsCtrl',
         controllerAs: 'plugins',
         url: '/plugins',
@@ -19,13 +19,13 @@
   }
 
   /** @ngInject */
-  function getPluginList($http, $project, projectCache) {
+  function getPluginList($http, $dashboard, projectCache) {
     return $http.get('plugins.json', { cache: projectCache })
       .then(function(response) {
         var plugins = response.data;
 
         plugins.forEach(function(plugin) {
-          plugin.isEnabled = !!$project.getPlugin(plugin.id);
+          plugin.isEnabled = !!$dashboard._getPluginById(plugin.id);
         });
 
         return plugins;
