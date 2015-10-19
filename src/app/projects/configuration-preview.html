@@ -1,0 +1,27 @@
+<md-dialog aria-label="Import configuration dialog">
+  <md-dialog-content>
+
+    <h2>Import Configuration</h2>
+    <p>
+      Select a project from the list below to apply this configuration.
+    </p>
+    <p>
+      <strong>This will overwrite your previous configuration.</strong>
+    </p>
+
+    <md-menu layout="column" class="navbar-project-selector">
+      <md-button ng-click="$mdOpenMenu($event)">
+        Select a project
+        <md-icon class="material-icons">arrow_drop_down</md-icon>
+      </md-button>
+      <md-menu-content width="3">
+        <md-menu-item ng-repeat="option in dialog.projects">
+          <md-button ng-click="dialog.overwriteProjectConfig(option.projectId)">
+            {{option.name}}
+          </md-button>
+        </md-menu-item>
+      </md-menu-content>
+    </md-menu>
+
+  </md-dialog-content>
+</md-dialog>

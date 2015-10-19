@@ -11,7 +11,7 @@
     GAuth.setScope(CLOUD_SCOPE);
 
     $rootScope.$on('$stateChangeError', function() {
-      console.log(arguments);
+      console.error(arguments);
     });
 
     $rootScope.$on('$locationChangeSuccess', function(e) {

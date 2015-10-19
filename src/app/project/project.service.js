@@ -6,7 +6,7 @@
     .factory('projectservice', projectservice);
 
   /** @ngInject */
-  function projectservice($q, $interpolate, $http, System, $ocLazyLoad, projectCache, projectStorage) {
+  function projectservice($q, $interpolate, $http, System, $ocLazyLoad, projectCache, projectStorage, configuration) {
     var getConfigUrl = $interpolate('https://raw.githubusercontent.com/{{repository}}/{{version}}/package.json');
     var getFileUrl = $interpolate('github:{{repository}}@{{version}}/{{file}}');
 
@@ -20,7 +20,7 @@
 
       this.storage = projectStorage({
         projectId: this.id,
-        driver: 'localStorage'
+        driver: 'firebase'
       });
 
       return this.storage.getItem('plugins')
@@ -90,6 +90,18 @@
 
           return $q.all(modules);
         });
+    };
+
+    Project.prototype.importPlugins = function(plugins) {
+      var self = this;
+
+      this.storage.setItem('plugins', plugins).then(function() {
+        self.load();
+      });
+    };
+
+    Project.prototype.shareConfiguration = function(name) {
+      return configuration.setByName(name, angular.copy(this.plugins));
     };
 
     function load(projectId) {
