@@ -9,7 +9,7 @@
   function pluginRoutes($stateProvider) {
     $stateProvider.state('plugin', {
       parent: 'dashboard',
-      url: '/:pluginId',
+      url: '/plugin/:pluginId',
       template: '<div ui-view flex layout="column"></div>',
       controller: 'PluginCtrl',
       controllerAs: 'plugin',
@@ -20,28 +20,13 @@
   /** @ngInject */
   function getPlugin($dashboard, $state, $stateParams) {
     var pluginId = $stateParams.pluginId;
+    var $plugin = $dashboard.getPlugin(pluginId);
 
-    function getDefaultState() {
-      return { state: pluginId };
-    }
-
-    function getPluginFiles($plugin) {
-      var hasState = !!$state.get(pluginId);
-
-      if (hasState) {
-        return $plugin;
-      }
-
-      return $dashboard
-        .loadPlugin($plugin.state)
-        .then(function() {
-          return $plugin;
-        });
-    }
-
-    return $dashboard
-      .getPlugin(pluginId)
-      .then(null, getDefaultState)
-      .then(getPluginFiles);
+    return $plugin.load()
+      .then(function() {
+        return $plugin.read();
+      }, function() {
+        $state.go('dashboard', $plugin);
+      });
   }
 }());

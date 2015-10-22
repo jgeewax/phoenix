@@ -7,29 +7,22 @@
     .factory('$Projects', $projectsFactory);
 
   /** @ngInject */
-  function $projectsFactory($q, $Project, storage) {
-    function $Projects(list) {
+  function $projectsFactory($q, $Project) {
+    function $Projects(projects) {
       if (!(this instanceof $Projects)) {
-        return new $Projects(list);
+        return new $Projects(projects);
       }
 
-      this.list = list;
+      projects = projects || [];
+
+      this.projects = projects.reduce(function(acc, project) {
+        acc[project.projectId] = project;
+        return acc;
+      }, {});
     }
 
-    $Projects.prototype.getProject = function(projectId) {
-      var project = _.findWhere(this.list, { projectId: projectId });
-
-      if (!project) {
-        return $q.reject('Unknown project "' + projectId + '"');
-      }
-
-      return storage.getItem(projectId)
-        .then(null, function() {
-          return ['default'];
-        })
-        .then(function(dashboards) {
-          return new $Project(project, dashboards);
-        });
+    $Projects.prototype.getProject = function(id) {
+      return new $Project(this.projects[id]);
     };
 
     return $Projects;

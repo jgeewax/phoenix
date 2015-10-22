@@ -23,7 +23,7 @@
 
   /** @ngInject */
   function NavbarCtrl($state, $scope, Navbar, GAuth) {
-    var DEFAULT_OPTION = 'Select a project';
+    var DEFAULT_OPTION = { name: 'Select a project' };
 
     var navbar = this;
     var projects = navbar.projects;
@@ -40,15 +40,7 @@
     }
 
     function setSelectedProject(projectId) {
-      navbar.selectedProject = getProjectName(projectId) || DEFAULT_OPTION;
-    }
-
-    function getProjectName(id) {
-      for (var i = 0; i < projects.length; i++) {
-        if (projects[i].projectId === id) {
-          return projects[i].name;
-        }
-      }
+      navbar.selectedProject = projects[projectId] || DEFAULT_OPTION;
     }
 
     function logout() {
