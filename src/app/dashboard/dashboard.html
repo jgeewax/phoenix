@@ -7,8 +7,8 @@
       </div>
     </md-list-item>
     <md-divider></md-divider>
-    <md-list-item ng-repeat="plugin in $dashboard.plugins | orderBy:'title' track by plugin.title" class="dashboard-nav-item md-with-secondary">
-      <sidenav-link ui-sref="plugin({ pluginId: plugin.id })">
+    <md-list-item ng-repeat="(pluginId, plugin) in $dashboard.$dataRef.plugins | orderBy:'title' track by plugin.title" class="dashboard-nav-item md-with-secondary">
+      <sidenav-link ui-sref="plugin({ pluginId: pluginId })">
         <md-icon>extension</md-icon>
         {{plugin.title}}
       </sidenav-link>
@@ -17,21 +17,21 @@
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content width="3">
-          <md-menu-item ng-click="dashboard.configure(plugin, true)">
+          <md-menu-item ng-click="dashboard.configure(pluginId, plugin, true)">
             <md-button>
               <md-icon>settings</md-icon>
               Settings
             </md-button>
           </md-menu-item>
           <md-menu-item>
-            <md-button ng-click="dashboard.clone(plugin)">
+            <md-button ng-click="dashboard.clone(pluginId, plugin)">
               <md-icon>content_copy</md-icon>
               Clone
             </md-button>
           </md-menu-item>
           <md-divider></md-divider>
           <md-menu-item>
-            <md-button ng-click="dashboard.remove(plugin)">
+            <md-button ng-click="dashboard.remove(pluginId, plugin)">
               <md-icon>delete</md-icon>
               Delete
             </md-button>

@@ -20,12 +20,12 @@
 
   /** @ngInject */
   function getDashboard($project, $stateParams) {
-    var dashboard = $stateParams.dashboardId;
+    var dashboardId = $stateParams.dashboardId;
 
-    if (dashboard === 'default') {
-      dashboard = $project.id + '-dashboard';
+    if (dashboardId === 'default') {
+      dashboardId = $project.id + '-dashboard';
     }
 
-    return $project.getDashboard(dashboard);
+    return $project.getDashboard(dashboardId);
   }
 }());

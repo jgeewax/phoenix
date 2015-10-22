@@ -9,7 +9,8 @@
       'ngMaterial',
       'md.data.table',
       'angular-google-gapi',
-      'oc.lazyLoad'
+      'oc.lazyLoad',
+      'firebase'
     ]);
 
 })();

@@ -7,25 +7,22 @@
     .factory('$Project', $projectFactory);
 
   /** @ngInject */
-  function $projectFactory($Dashboard, storage) {
-    function $Project(project, dashboards) {
+  function $projectFactory($Dashboard, firebaseDriver) {
+    function $Project(project) {
       if (!(this instanceof $Project)) {
         return new $Project(project);
       }
 
       angular.extend(this, project);
-      this.id = this.projectId;
-      this.dashboards = dashboards;
+
+      this.id = project.projectId;
+      this.dashboards = {
+        $data: firebaseDriver.getMyDashboards(this.id)
+      };
     }
 
-    $Project.prototype.getDashboard = function(dashboardId) {
-      return storage.getItem(dashboardId)
-        .then(null, function() {
-          return [];
-        })
-        .then(function(plugins) {
-          return new $Dashboard(dashboardId, plugins);
-        });
+    $Project.prototype.getDashboard = function(id) {
+      return new $Dashboard(this.id, id);
     };
 
     return $Project;

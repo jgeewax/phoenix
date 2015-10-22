@@ -6,7 +6,7 @@
     .run(runBlock);
 
   /** @ngInject */
-  function runBlock($rootScope, $urlRouter, $injector, GAuth, GData, CLIENT_ID, CLOUD_SCOPE) {
+  function runBlock($q, $rootScope, $urlRouter, $injector, firebaseDriver, GAuth, GData, CLIENT_ID, CLOUD_SCOPE) {
     GAuth.setClient(CLIENT_ID);
     GAuth.setScope(CLOUD_SCOPE);
 
@@ -15,17 +15,19 @@
     });
 
     $rootScope.$on('$locationChangeSuccess', function(e) {
-      if (GData.isLogin()) {
+      if (GData.isLogin() && firebaseDriver.isAuthenticated()) {
         return;
       }
 
       e.preventDefault();
 
-      GAuth.checkAuth().then(function() {
-        $urlRouter.sync();
-      }, function() {
-        $injector.get('$state').go('login');
-      });
+      GAuth.checkAuth()
+        .then(firebaseDriver.auth)
+        .then(function() {
+          $urlRouter.sync();
+        }, function() {
+          $injector.get('$state').go('login');
+        });
     });
 
     $urlRouter.listen();

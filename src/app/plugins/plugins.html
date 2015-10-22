@@ -32,7 +32,7 @@
         <tr ng-repeat="plugin in plugins.list | filter: plugins.filter">
           <td>{{plugin.title}}</td>
           <td>
-            <md-button class="md-icon-button" ng-click="dashboard.configure(plugin, false)">
+            <md-button class="md-icon-button" ng-click="dashboard.configure(plugin.slug, plugin, false)">
               <md-tooltip>Add plugin</md-tooltip>
               <md-icon>add</md-icon>
             </md-button>
