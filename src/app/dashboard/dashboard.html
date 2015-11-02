@@ -2,18 +2,32 @@
 <sidenav class="dashboard-nav">
   <md-list>
     <md-list-item class="dashboard-nav-item">
-      <div class="md-list-item-inner">
-        {{$dashboard.id}}
-      </div>
+      <md-input-container class="dashboard-picker md-list-item-inner" flex>
+        <md-select
+          ng-model="$dashboard.$dataRef.name"
+          placeholder="Select a Dashboard"
+          flex>
+          <md-option
+            ng-repeat="(dashId, dashData) in $project.dashboards.$data"
+            ng-value="dashData.name"
+            ui-sref="dashboard({ dashboardId: dashId })">
+            {{dashData.name}}
+          </md-option>
+        </md-select>
+      </md-input-container>
     </md-list-item>
     <md-divider></md-divider>
-    <md-list-item ng-repeat="(pluginId, plugin) in $dashboard.$dataRef.plugins | orderBy:'title' track by plugin.title" class="dashboard-nav-item md-with-secondary">
+    <md-list-item
+      ng-repeat="(pluginId, plugin) in $dashboard.$dataRef.plugins | orderBy:'title' track by plugin.title"
+      class="dashboard-nav-item md-with-secondary">
       <sidenav-link ui-sref="plugin({ pluginId: pluginId })">
         <md-icon>extension</md-icon>
         {{plugin.title}}
       </sidenav-link>
       <md-menu class="plugin-menu">
-        <md-button class="md-icon-button md-secondary-container" ng-click="$mdOpenMenu($event)">
+        <md-button
+          class="md-icon-button md-secondary-container"
+          ng-click="$mdOpenMenu($event)">
           <md-icon>more_vert</md-icon>
         </md-button>
         <md-menu-content width="3">

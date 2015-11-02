@@ -1,5 +1,82 @@
 <section layout="column" flex>
-  <navbar projects="$projects.projects" user="gapi.user"></navbar>
+  <navbar projects="projects.map" user="gapi.user"></navbar>
+  <div ng-if="ACTIVE_STATE.name === 'projects'">
+    <md-tabs class="dashboard-tabs" md-dynamic-height>
+      <md-tab
+        class="dashboard-tab"
+        ng-repeat="(projectId, projectData) in projects.map"
+        label="{{projectData.name}}"
+        md-on-deselect="projects.dashboardListId = null"
+        md-on-select="projects.dashboardListId = projectId">
+
+        <h1
+          class="md-title layout-padding"
+          ng-if="projectData.dashboards.othersCount > 0">
+          Project Dashboards
+        </h1>
+        <div layout="row" layout-sm="column">
+          <md-card
+            class="dashboard-card dashboard-card--not-self"
+            ng-repeat="(dashboardId, dashboardData) in projectData.dashboards.others">
+            <md-card-content ui-sref="dashboard({ projectId: projectId, dashboardId: dashboardId })">
+              <h3 class="md-title">{{dashboardData.name || 'Default Dashboard'}}</h3>
+            </md-card-content>
+            <md-divider></md-divider>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button class="md-icon-button">
+                <md-tooltip>Edit Dashboard</md-tooltip>
+                <md-icon>edit</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="projects.shareDashboard(projectId, dashboardId)">
+                <md-tooltip>Share Dashboard</md-tooltip>
+                <md-icon>share</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="projects.deleteDashboard(projectId, dashboardId)">
+                <md-tooltip>Delete Dashboard</md-tooltip>
+                <md-icon>delete</md-icon>
+              </md-button>
+            </div>
+          </md-card>
+        </div>
+
+        <h1
+          class="md-title layout-padding"
+          ng-if="projectData.dashboards.selfCount > 0 && projectData.dashboards.othersCount > 0">
+          My Dashboards
+        </h1>
+        <div layout="row" layout-sm="column">
+          <md-card
+            class="dashboard-card"
+            ng-repeat="(dashboardId, dashboardData) in projectData.dashboards.self">
+            <md-card-content ui-sref="dashboard({ projectId: projectId, dashboardId: dashboardId })">
+              <h3 class="md-title">{{dashboardData.name || 'Default Dashboard'}}</h3>
+            </md-card-content>
+            <md-divider></md-divider>
+            <div class="md-actions" layout="row" layout-align="end center">
+              <md-button class="md-icon-button">
+                <md-tooltip>Edit Dashboard</md-tooltip>
+                <md-icon>edit</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="projects.shareDashboard(projectId, dashboardId)">
+                <md-tooltip>Share Dashboard</md-tooltip>
+                <md-icon>share</md-icon>
+              </md-button>
+              <md-button class="md-icon-button" ng-click="projects.deleteDashboard(projectId, dashboardId)">
+                <md-tooltip>Delete Dashboard</md-tooltip>
+                <md-icon>delete</md-icon>
+              </md-button>
+            </div>
+          </md-card>
+        </div>
+      </md-tab>
+    </md-tabs>
+    <md-button
+      class="md-fab dashboard-add"
+      ng-if="projects.dashboardListId"
+      ng-click="projects.createDashboard(projects.dashboardListId)">
+      <md-tooltip>Create a new Dashboard</md-tooltip>
+      <md-icon>add</md-icon>
+    </md-button>
+  </div>
   <div ui-view layout="column" flex></div>
 </section>
-

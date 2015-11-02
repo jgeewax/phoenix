@@ -37,8 +37,7 @@
     };
 
     $Plugin.prototype.save = function(data) {
-      angular.extend(this.$dataRef, data);
-      return this.$dataRef.$save();
+      return firebaseDriver.save(this.$dataRef, data);
     };
 
     $Plugin.prototype.load = function() {
