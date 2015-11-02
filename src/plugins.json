@@ -3,4 +3,18 @@
   "state": "storage-browser",
   "repository": "jgeewax/gcloud-ui-storage-browser",
   "version": "v0.0.2"
+}, {
+  "title": "Hybrid Storage Browser",
+  "state": "hybrid-storage-browser.buckets",
+  "repository": "callmehiphop/hybrid-storage-browser",
+  "version": "master",
+  "params": [{
+    "name": "Access Key ID",
+    "key": "accessKeyId",
+    "type": "input"
+  }, {
+    "name": "Secret Access Key",
+    "key": "secretAccessKey",
+    "type": "input"
+  }]
 }]
