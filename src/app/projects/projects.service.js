@@ -7,7 +7,7 @@
     .factory('$Projects', $projectsFactory);
 
   /** @ngInject */
-  function $projectsFactory($q, $Project) {
+  function $projectsFactory($q, $Project, $Dashboard) {
     function $Projects(projects) {
       if (!(this instanceof $Projects)) {
         return new $Projects(projects);
@@ -23,6 +23,10 @@
 
     $Projects.prototype.getProject = function(id) {
       return new $Project(this.projects[id]);
+    };
+
+    $Projects.prototype.getDashboard = function(id) {
+      return new $Dashboard(null, id);
     };
 
     return $Projects;

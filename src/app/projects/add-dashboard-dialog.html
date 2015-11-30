@@ -1,0 +1,71 @@
+<md-dialog area-label="Add Dashboard" flex="30" class="dashboard-add-dialog">
+  <md-dialog-content>
+    <md-tabs md-dynamic-height md-border-bottom>
+      <md-tab label="Create" md-on-select="dialog.add = dialog.create">
+        <md-content>
+          <form name="createDashboard">
+            <div class="md-padding">
+              <h3 class="md-title">Popular Dashboards</h3>
+              <md-card
+                class="dashboard-card dashboard-card--global"
+                ng-repeat="(dashboardId, dashboardData) in dialog.popularDashboards"
+                ng-click="dialog.selectDashboard(dashboardId, dashboardData)"
+                ng-class="{ 'dashboard-card--selected': dialog.inheritFrom === dashboardId }">
+                <md-card-content>
+                  <h3 class="md-subhead">
+                    {{dashboardData.name}}
+                  </h3>
+                </md-card-content>
+              </md-card>
+            </div>
+
+            <div class="md-padding">
+              <md-input-container class="md-block">
+                <label>Name</label>
+                <input type="text" ng-model="dialog.name" name="name" required if-available get-ref="dialog.getRef">
+                <div ng-messages="createDashboard.name.$error">
+                  <div ng-if="createDashboard.name.$error.ifAvailable" ng-message>This name is already taken.</div>
+                </div>
+              </md-input-container>
+            </div>
+          </form>
+        </md-content>
+      </md-tab>
+
+      <md-tab label="Import" md-on-select="dialog.add = dialog.importDash">
+        <md-content class="md-padding">
+          <form name="importDashboard">
+            <md-input-container class="md-block">
+              <label>Code</label>
+              <input type="text" ng-model="dialog.code" name="code" required>
+              <div ng-messages="importDashboard.code.$error">
+                <div ng-if="importDashboard.code.$error.exists" ng-message>The provided code is invalid.</div>
+              </div>
+            </md-input-container>
+            <div ng-if="dialog.import">
+              <md-input-container class="md-block">
+                <label>Name</label>
+                <input type="text" ng-model="dialog.import.name" name="name" required if-available get-ref="dialog.getRef">
+                <div ng-messages="importDashboard.name.$error">
+                  <div ng-if="importDashboard.name.$error.ifAvailable" ng-message>This name is already taken.</div>
+                </div>
+              </md-input-container>
+            </div>
+            <div ng-if="dialog.import.plugins">
+              <label>Plugins</label>
+              <ul>
+                <li ng-repeat="plugin in dialog.import.plugins">
+                  {{plugin.title}}
+                </li>
+              </ul>
+            </div>
+          </form>
+        </md-content>
+      </md-tab>
+    </md-tabs>
+  </md-dialog-content>
+  <div class="md-actions">
+    <md-button ng-click="dialog.close()">Cancel</md-button>
+    <md-button class="md-raised md-accent" ng-click="dialog.add()">Add</md-button>
+  </div>
+</md-dialog>

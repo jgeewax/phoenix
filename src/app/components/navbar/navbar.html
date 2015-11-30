@@ -5,7 +5,7 @@
   <a ui-sref="projects" title="Developer Console Projects">
     <img class="navbar-logo" src="assets/images/logo-color.svg" alt="gcloud">
   </a>
-  <md-menu layout="column" class="navbar-project-selector">
+  <md-menu layout="column" class="navbar-project-selector" ng-if="navbar.selectedProject">
     <md-button ng-click="$mdOpenMenu($event)">
       {{navbar.selectedProject.name}}
       <md-icon class="material-icons">arrow_drop_down</md-icon>

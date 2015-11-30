@@ -1,5 +1,6 @@
 .dashboard-nav {
   background-color: rgb(250, 250, 250) !important;
+  margin: 0;
 }
 
 .dashboard-nav-item,
@@ -36,4 +37,12 @@
 
 .plugin-menu > .md-button {
   right: 0;
+}
+
+.dashboard-picker {
+  margin: 0 !important;
+
+  .md-select-value {
+    border-bottom-color: transparent;
+  }
 }
